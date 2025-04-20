@@ -14,12 +14,32 @@ const requestPokemonData = async (pokeName) => {
     return response.data;
   } catch (error) {
     console.error("エラーが起きました:", error);
-  }
+  }};
+
+// レスポンスを取得し、必要なデータを取得する。
+const extractPokemonData = (pokemonData) => {
+  const id = pokemonData.id;
+  const name = pokemonData.name;
+  const image = pokemonData.sprites.front_default;
+  const types = [];
+  pokemonData.types.forEach (typeItem =>
+    types.push(typeItem.type.name)
+  );
+  return {id, name, image, types};
 };
-document.getElementById("js-form").addEventListener("submit", (e) => {
+
+const submitHandler = async(e) => {
   e.preventDefault(); // フォームをとめる。
   // フォームを生成
   const form = new FormData(e.target);
   const pokeName = form.get("pokeName").toLowerCase();
+  const pokemonData = await requestPokemonData(pokeName);
+  const extractData = extractPokemonData(pokemonData);
+  console.log(extractData.id);
+  console.log(extractData.name);
+  console.log(extractData.image);
+  console.log(extractData.types);
   console.log("入力された名前：",pokeName);
-});
+};
+
+document.getElementById("js-form").addEventListener("submit", (e) => submitHandler(e));
