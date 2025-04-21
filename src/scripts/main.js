@@ -14,6 +14,7 @@ const requestPokemonData = async (pokeName) => {
     return response.data;
   } catch (error) {
     console.error("エラーが起きました:", error);
+    alert("データがありません");
   }};
 
 // レスポンスを取得し、必要なデータを取得する。
@@ -28,6 +29,27 @@ const extractPokemonData = (pokemonData) => {
   return {id, name, image, types};
 };
 
+// HTMLを生成する。
+const createPokemonHTML = (data) => {
+  const htmlData = `<dl>
+          <dt>Name: ${data.name}</dt>
+          <dd><img src="${data.image}" alt=""></dd>
+          <dd>Id: ${data.id}</dd>
+          <dd>Type: ${data.types.join(", ")}</dd>
+          <dd><button id="js-cry-button">鳴き声</button></dd>
+        </dl>`
+  document.getElementById("js-result").innerHTML = htmlData;
+  document.getElementById("js-cry-button").addEventListener("click", () => {
+    playCry(data.name);
+  })
+}
+
+// 鳴き声の生成
+const playCry = (name) => {
+  const audio = new Audio(`https://play.pokemonshowdown.com/audio/cries/${name.toLowerCase()}.ogg`);
+  audio.play();
+};
+
 const submitHandler = async(e) => {
   e.preventDefault(); // フォームをとめる。
   // フォームを生成
@@ -35,6 +57,8 @@ const submitHandler = async(e) => {
   const pokeName = form.get("pokeName").toLowerCase();
   const pokemonData = await requestPokemonData(pokeName);
   const extractData = extractPokemonData(pokemonData);
+  createPokemonHTML(extractData);
+  playCry(extractData.name);
   console.log(extractData.id);
   console.log(extractData.name);
   console.log(extractData.image);
