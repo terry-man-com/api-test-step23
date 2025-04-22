@@ -28,6 +28,7 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  justify-content: center;
 }
 
 h1 {
@@ -81,7 +82,37 @@ button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
+.wrapper {
+  text-align: center;
+}
+input {
+  padding: 10px 10px;
+  margin: 0 10px;
+  border-radius: 7px;
+  border-style: none;
+}
 
+.result {
+  margin: 20px 0;
+}
+.result dl,
+.result dt,
+.result dd {
+  margin: 0;
+}
+.result dd button {
+  border: 1px solid transparent;
+  border-radius: 5;
+  padding: 0 20px;
+  margin: 10px;
+  transition: border-color 0.25s;
+}
+.result dd button:hover {
+  border-color: #646cff;
+}
+.link {
+  padding: 10px 0;
+}
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
